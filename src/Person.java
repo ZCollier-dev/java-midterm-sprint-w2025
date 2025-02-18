@@ -1,9 +1,9 @@
 public class Person {
     //attributes
-    protected int id;
-    protected String name;
-    protected int age;
-    protected String phone;
+    private int id;
+    private String name;
+    private int age;
+    private String phone;
 
     //methods
     public Person(int id, String name, int age, String phone){
@@ -13,6 +13,7 @@ public class Person {
         this.phone = phone;
     }
 
+    public void setId(int id){this.id = id;}
     public void setName(String name){
         this.name = name;
     }
