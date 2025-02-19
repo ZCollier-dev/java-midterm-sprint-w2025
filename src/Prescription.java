@@ -3,17 +3,17 @@ import java.util.UUID;
 
 class Prescription {
     private String id;
-    private Doctor doctor;
-    private Patient patient;
-    private Medication medication;
+    private String doctorId;
+    private String patientId;
+    private String medicationId;
     private LocalDate issueDate;
     private LocalDate expiryDate;
     
-    public Prescription(Doctor doctor, Patient patient, Medication medication) {
+    public Prescription(String doctor, String patient, String medication) {
         this.id = UUID.randomUUID().toString();
-        this.doctor = doctor;
-        this.patient = patient;
-        this.medication = medication;
+        this.doctorId = doctor;
+        this.patientId = patient;
+        this.medicationId = medication;
         this.issueDate = LocalDate.now();
         this.expiryDate = issueDate.plusYears(1);
     }
@@ -22,16 +22,16 @@ class Prescription {
         return id;
     }
     
-    public Doctor getDoctor() {
-        return doctor;
+    public String getDoctor() {
+        return doctorId;
     }
     
-    public Patient getPatient() {
-        return patient;
+    public String getPatient() {
+        return patientId;
     }
     
-    public Medication getMedication() {
-        return medication;
+    public String getMedication() {
+        return medicationId;
     }
     
     public LocalDate getIssueDate() {
@@ -44,9 +44,9 @@ class Prescription {
     
     public void printPrescriptionDetails() {
         System.out.println("Prescription ID: " + id);
-        System.out.println("Doctor: " + doctor.getName() + " (" + doctor.getSpecialization() + ")");
-        System.out.println("Patient: " + patient.getName() + ", Age: " + patient.getAge());
-        System.out.println("Medication: " + medication.getName() + " (" + medication.getDosage() + ")");
+        System.out.println("Doctor ID: " + this.doctorId);
+        System.out.println("Patient ID: " + this.patientId);
+        System.out.println("Medication ID: " + this.medicationId);
         System.out.println("Issue Date: " + issueDate);
         System.out.println("Expiry Date: " + expiryDate);
     }
