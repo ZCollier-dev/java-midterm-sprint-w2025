@@ -1,19 +1,20 @@
+import java.util.UUID;
+
 public class Person {
     //attributes
-    private int id;
+    private String id;
     private String name;
     private int age;
     private String phone;
 
     //methods
-    public Person(int id, String name, int age, String phone){
-        this.id = id;
+    public Person(String name, int age, String phone){
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.age = age;
         this.phone = phone;
     }
 
-    public void setId(int id){this.id = id;}
     public void setName(String name){
         this.name = name;
     }
@@ -24,7 +25,7 @@ public class Person {
         this.phone = phone;
     }
 
-    public int getId(){
+    public String getId(){
         return this.id;
     }
     public String getName(){

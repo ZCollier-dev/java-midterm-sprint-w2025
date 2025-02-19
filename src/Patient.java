@@ -6,8 +6,8 @@ public class Patient extends Person {
     private ArrayList<Integer> prescriptionIds = new ArrayList<Integer>();
 
     //methods, replace arraylist string with arraylist medications/prescriptions once those classes are done
-    public Patient(int id, String name, int age, String phone, ArrayList<String> medications, ArrayList<Integer> prescriptions){
-        super(id, name, age, phone);
+    public Patient(String name, int age, String phone, ArrayList<String> medications, ArrayList<Integer> prescriptions){
+        super(name, age, phone);
         this.medications = medications;
         this.prescriptionIds = prescriptions;
     }

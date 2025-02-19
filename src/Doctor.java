@@ -6,8 +6,8 @@ public class Doctor extends Person {
     private ArrayList<Patient> patients = new ArrayList<Patient>();
 
     //methods
-    public Doctor(int id, String name, int age, String phone, String specialization, ArrayList<Patient> patients){
-        super(id, name, age, phone);
+    public Doctor(String name, int age, String phone, String specialization, ArrayList<Patient> patients){
+        super(name, age, phone);
         this.specialization = specialization;
         this.patients = patients;
     }
