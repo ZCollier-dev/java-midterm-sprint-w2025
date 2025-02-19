@@ -3,46 +3,45 @@ import java.util.ArrayList;
 public class Doctor extends Person {
     //attributes
     private String specialization;
-    private ArrayList<Patient> patients = new ArrayList<Patient>();
+    private ArrayList<String> patientIds = new ArrayList<String>();
 
     //methods
-    public Doctor(String name, int age, String phone, String specialization, ArrayList<Patient> patients){
+    public Doctor(String name, int age, String phone, String specialization, ArrayList<String> patients){
         super(name, age, phone);
         this.specialization = specialization;
-        this.patients = patients;
+        this.patientIds = patients;
     }
 
     public void setSpecialization(String spec){
         this.specialization = spec;
     }
-    public void setPatients(ArrayList<Patient> patients){
-        this.patients = patients;
+    public void setPatients(ArrayList<String> patients){
+        this.patientIds = patients;
     }
     public String getSpecialization(){
         return this.specialization;
     }
-    public ArrayList<Patient> getPatients(){
-        return this.patients;
+    public ArrayList<String> getPatients(){
+        return this.patientIds;
     }
 
-    public void addPatient(Patient patient){
-        this.patients.add(patient);
+    public void addPatient(String patient){
+        this.patientIds.add(patient);
     }
-    public void removePatient(Patient patient){
-        int index = this.patients.indexOf(patient);
+    public void removePatient(String patient){
+        int index = this.patientIds.indexOf(patient);
         if (index >= 0){
-            this.patients.removeIf(n -> n == patient);
+            this.patientIds.removeIf(n -> n == patient);
         } else {
             System.out.println("Patient not found. Please ensure that you have the correct spelling and capitalization.");
         }
     }
-    public Patient getOnePatient(Patient patient){
-        int index = this.patients.indexOf(patient);
+    public String getOnePatient(String patient){
+        int index = this.patientIds.indexOf(patient);
         if (index >= 0){
-            return this.patients.get(index);
+            return this.patientIds.get(index);
         } else {
-            System.out.println("Patient not found. Please ensure that you have the correct spelling and capitalization.");
-            return patient;
+            return "Patient not found. Please ensure that you have the correct spelling and capitalization.";
         }
     }
 }
