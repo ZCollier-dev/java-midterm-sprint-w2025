@@ -1,60 +1,6 @@
 import java.time.LocalDate;
 import java.util.UUID;
 
-class Doctor {
-    private String name;
-    private String specialization;
-    
-    public Doctor(String name, String specialization) {
-        this.name = name;
-        this.specialization = specialization;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getSpecialization() {
-        return specialization;
-    }
-}
-
-class Patient {
-    private String name;
-    private int age;
-    
-    public Patient(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public int getAge() {
-        return age;
-    }
-}
-
-class Medication {
-    private String name;
-    private String dosage;
-    
-    public Medication(String name, String dosage) {
-        this.name = name;
-        this.dosage = dosage;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getDosage() {
-        return dosage;
-    }
-}
-
 class Prescription {
     private String id;
     private Doctor doctor;

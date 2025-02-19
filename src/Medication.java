@@ -26,11 +26,11 @@ class Medication {
     }
 
     public void setName(String name) { this.name = name; }
-    public void setDose(String dose) { this.dose = dose; }
+    public void setDosage(String dose) { this.dose = dose; }
     public void setQuantityInStock(int quantity) { this.quantityInStock = quantity; }
     public String getId() { return id; }
     public String getName() { return name; }
-    public String getDose() { return dose; }
+    public String getDosage() { return dose; }
     public int getQuantityInStock() { return quantityInStock; }
     public LocalDate getExpiryDate() { return expiryDate; }
 }
