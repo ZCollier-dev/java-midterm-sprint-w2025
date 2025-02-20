@@ -33,7 +33,7 @@ public class Doctor extends Person {
         if (index >= 0){
             this.patientIds.removeIf(n -> n == patient);
         } else {
-            System.out.println("Patient not found. Please ensure that you have the correct spelling and capitalization.");
+            System.out.println("Patient not found.");
         }
     }
     public String getOnePatient(String patient){
@@ -41,7 +41,7 @@ public class Doctor extends Person {
         if (index >= 0){
             return this.patientIds.get(index);
         } else {
-            return "Patient not found. Please ensure that you have the correct spelling and capitalization.";
+            return "Patient not found.";
         }
     }
 }
