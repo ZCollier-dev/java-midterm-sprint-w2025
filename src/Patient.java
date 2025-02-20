@@ -37,7 +37,7 @@ public class Patient extends Person {
         if (index >= 0){
             this.medicationIds.removeIf(n -> n == med);
         } else {
-            System.out.println("Medication not found. Please ensure that you have the correct spelling and capitalization.");
+            System.out.println("Medication not found.");
         }
     }
     public void removePrescription(String pres){
@@ -45,7 +45,7 @@ public class Patient extends Person {
         if (index >= 0){
             this.prescriptionIds.removeIf(n -> n == pres);
         } else {
-            System.out.println("Prescription not found. Please ensure that you have the correct spelling and capitalization.");
+            System.out.println("Prescription not found.");
         }
     }
     public String getOneMedication(String med){
@@ -53,7 +53,7 @@ public class Patient extends Person {
         if (index >= 0){
             return this.medicationIds.get(index);
         } else {
-            return "Medication not found. Please ensure that you have the correct spelling and capitalization.";
+            return "Medication not found.";
         }
     }
     public String getOnePrescription(int pres){
@@ -61,7 +61,7 @@ public class Patient extends Person {
         if (index >= 0){
             return this.prescriptionIds.get(index);
         } else {
-            return "Prescription not found. Please ensure that you have the correct spelling and capitalization.";
+            return "Prescription not found.";
         }
     }
 
