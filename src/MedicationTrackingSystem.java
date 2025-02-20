@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MedicationTrackingSystem {
@@ -23,37 +24,193 @@ public class MedicationTrackingSystem {
 
     public void addPrescription(Prescription prescription) {
         prescriptions.add(prescription);
+        for (Patient patient : patients){
+            if (patient.getId().equalsIgnoreCase(prescription.getPatient())){
+                patient.addPrescription(prescription.getId());
+                patient.addMedication(prescription.getMedication());
+                break;
+            }
+        }
     }
 
     public void addMedication(Medication medication) {
         medications.add(medication);
     }
 
+    public void updateDoctorAge(String name, int age){
+        for (Doctor doctor : doctors){
+            if (doctor.getName().equalsIgnoreCase(name)){
+                doctor.setAge(age);
+            }
+        }
+    }
+
+    public void updateDoctorPhone(String name, String phone){
+        for (Doctor doctor : doctors){
+            if (doctor.getName().equalsIgnoreCase(name)){
+                doctor.setPhone(phone);
+            }
+        }
+    }
+
+    public void updatePatientAge(String name, int age){
+        for (Patient patient : patients){
+            if (patient.getName().equalsIgnoreCase(name)){
+                patient.setAge(age);
+            }
+        }
+    }
+    public void updatePatientPhone(String name, String phone){
+        for (Patient patient : patients){
+            if (patient.getName().equalsIgnoreCase(name)){
+                patient.setPhone(phone);
+            }
+        }
+    }
+
+    public void updateMedicationDose(String name, String dose){
+        for (Medication medication : medications){
+            if (medication.getName().equalsIgnoreCase(name)){
+                medication.setDosage(dose);
+            }
+        }
+    }
+
+    public void updateMedicationExpiry(String name, LocalDate expiryDate){
+        for (Medication medication : medications){
+            if (medication.getName().equalsIgnoreCase(name)){
+                medication.setExpiryDate(expiryDate);
+            }
+        }
+    }
+
     public void deleteDoctor(String name) {
-        doctors.removeIf(doctor -> doctor.getName().equalsIgnoreCase(name));
+        String id = null;
+        for (Doctor doctor : doctors){
+            if (doctor.getName().equalsIgnoreCase(name)){
+                id = doctor.getId();
+                break;
+            }
+        }
+        if (id != null){
+            String finalId = id;
+            doctors.removeIf(doctor -> doctor.getId().equalsIgnoreCase(finalId));
+        }
     }
 
     public void deletePatient(String name) {
-        patients.removeIf(patient -> patient.getName().equalsIgnoreCase(name));
+        String id = null;
+        for (Patient patient : patients){
+            if (patient.getName().equalsIgnoreCase(name)){
+                id = patient.getId();
+                break;
+            }
+        }
+        if (id != null){
+            String finalId = id;
+            for (Doctor doctor : doctors){
+                doctor.removePatient(finalId);
+            }
+            patients.removeIf(patient -> patient.getId().equalsIgnoreCase(finalId));
+        }
     }
 
     public void deleteMedication(String name) {
-        medications.removeIf(medication -> medication.getName().equalsIgnoreCase(name));
+        String id = null;
+        for (Medication med : medications){
+            if (med.getName().equalsIgnoreCase(name)){
+                id = med.getId();
+                break;
+            }
+        }
+        if (id != null){
+            String finalId = id;
+            medications.removeIf(medication -> medication.getId().equalsIgnoreCase(finalId));
+        }
+
     }
 
     public void searchMedication(String name) {
         for (Medication medication : medications) {
             if (medication.getName().equalsIgnoreCase(name)) {
                 System.out.println("Medication found: " + medication.getName() + ". Number in stock: " + medication.getQuantityInStock());
+                System.out.println("Dosage: " + medication.getDosage() + ". Expiry Date: " + medication.getExpiryDate());
                 return;
             }
         }
         System.out.println("Medication not found.");
     }
 
+    public void searchPatient(String name) {
+        for (Patient patient : patients) {
+            if (patient.getName().equalsIgnoreCase(name)) {
+                ArrayList<String> meds = patient.getMedications();
+                ArrayList<String> prescripts = patient.getPrescriptions();
+
+                System.out.println("Patient found: " + patient.getName() + ". Age: " + patient.getAge() + ". Phone #: " + patient.getPhone());
+                System.out.println("Medications: ");
+                for (String id : meds) {
+                    for (Medication medication : medications){
+                        if (medication.getId().equalsIgnoreCase(id)){
+                            System.out.println(medication.getName());
+                            break;
+                        }
+                    }
+                }
+                System.out.println("Prescription IDs: ");
+                for (String id : prescripts) {
+                    System.out.println(id);
+                }
+                return;
+            }
+        }
+        System.out.println("Medication not found.");
+    }
+
+    public void searchDoctor(String name) {
+        for (Doctor doctor : doctors) {
+            if (doctor.getName().equalsIgnoreCase(name)) {
+                ArrayList<String> patientIds = doctor.getPatients();
+
+                System.out.println("Doctor found: " + doctor.getName() + ". Specialization: " + doctor.getSpecialization() + "Phone #: " + doctor.getPhone());
+                System.out.println("Patients: ");
+                for (String id : patientIds) {
+                    for (Patient patient : patients){
+                        if (patient.getId().equalsIgnoreCase(id)){
+                            System.out.println(patient.getName());
+                            break;
+                        }
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("Medication not found.");
+    }
+
+    public void doctorPrescriptionsIssued(String doctorName) {
+        String docId = null;
+        for (Doctor doctor : doctors) {
+            if (doctor.getName().equalsIgnoreCase(doctorName)) {
+                docId = doctor.getId();
+                break;
+            }
+        }
+        if (docId != null) {
+            System.out.println("Doctor " + doctorName + "'s Prescriptions: ");
+            for (Prescription prescription : prescriptions){
+                if (prescription.getDoctor().equalsIgnoreCase(docId)){
+                    System.out.println(prescription.getId());
+                }
+            }
+        } else {
+            System.out.println("Doctor not found.");
+        }
+    }
+
     public void checkExpiredMedications() {
         for (Medication medication : medications) {
-            if (medication.getExpiryDate().isBefore(java.time.LocalDate.now())) {
+            if (medication.getExpiryDate().isBefore(LocalDate.now())) {
                 System.out.println("Expired medications on file: " + medication.getName());
             }
         }
@@ -105,7 +262,8 @@ public class MedicationTrackingSystem {
         if (doctor != null) {
             for (Patient patient: patients) {
                 if (patient.getName().equalsIgnoreCase(patientName)) {
-                    doctor.addPatient(patientName);
+                    String patientId = patient.getId();
+                    doctor.addPatient(patientId);
                     System.out.println("Patient " + patientName + "has been assigned to Dr. " + doctorName);
                     return;
                 }
