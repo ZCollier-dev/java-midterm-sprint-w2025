@@ -1,40 +1,63 @@
-import java.util.UUID;
+import java.util.Scanner;
 
 public class Person {
-    //attributes
-    private String id;
+    private static int idCounter = 1;
+    private int id;
     private String name;
     private int age;
-    private String phone;
+    private String phoneNumber;
 
-    //methods
-    public Person(String name, int age, String phone){
-        this.id = UUID.randomUUID().toString();
+    // Constructor with parameters
+    public Person(String name, int age, String phoneNumber) {
+        this.id = idCounter++;
         this.name = name;
         this.age = age;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setName(String name){
+    // Interactive constructor using Scanner
+    public Person(Scanner scanner) {
+        this.id = idCounter++;
+        this.name = getInput(scanner, "Enter Name: ");
+        this.age = Integer.parseInt(getInput(scanner, "Enter Age: "));
+        this.phoneNumber = getInput(scanner, "Enter Phone Number: ");
+    }
+
+    private static String getInput(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
-    public void setAge(int age){
-        this.age = age;
-    }
-    public void setPhone(String phone){
-        this.phone = phone;
+
+    public int getAge() {
+        return age;
     }
 
-    public String getId(){
-        return this.id;
+    public void setAge(int age) {
+        this.age = age;
     }
-    public String getName(){
-        return this.name;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-    public int getAge(){
-        return this.age;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    public String getPhone(){
-        return this.phone;
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Phone: " + phoneNumber;
     }
 }

@@ -1,68 +1,87 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Patient extends Person {
-    //attributes
-    private ArrayList<String> medicationIds = new ArrayList<String>();
-    private ArrayList<String> prescriptionIds = new ArrayList<String>();
+    private ArrayList<String> medicationIds = new ArrayList<>();
+    private ArrayList<String> prescriptionIds = new ArrayList<>();
 
-    //methods, replace arraylist string with arraylist medications/prescriptions once those classes are done
-    public Patient(String name, int age, String phone, ArrayList<String> medications, ArrayList<String> prescriptions){
+    // Constructor with parameters
+    public Patient(String name, int age, String phone) {
         super(name, age, phone);
-        this.medicationIds = medications;
-        this.prescriptionIds = prescriptions;
     }
 
-    public void setMedications(ArrayList<String> meds){
+    // Interactive constructor using Scanner
+    public Patient(Scanner scanner) {
+        super(
+            getInput(scanner, "Enter Patient Name: "),
+            Integer.parseInt(getInput(scanner, "Enter Patient Age: ")),
+            getInput(scanner, "Enter Patient Phone Number: ")
+        );
+    }
+
+    private static String getInput(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public void setMedications(ArrayList<String> meds) {
         this.medicationIds = meds;
     }
-    public void setPrescriptions(ArrayList<String> prescripts){
+
+    public void setPrescriptions(ArrayList<String> prescripts) {
         this.prescriptionIds = prescripts;
     }
 
-    public ArrayList<String> getMedications(){
+    public ArrayList<String> getMedications() {
         return this.medicationIds;
     }
-    public ArrayList<String> getPrescriptions(){
+
+    public ArrayList<String> getPrescriptions() {
         return this.prescriptionIds;
     }
 
-    public void addMedication(String med){
+    public void addMedication(String med) {
         this.medicationIds.add(med);
     }
-    public void addPrescription(String pres){
+
+    public void addPrescription(String pres) {
         this.prescriptionIds.add(pres);
     }
-    public void removeMedication(String med){
-        int index = this.medicationIds.indexOf(med);
-        if (index >= 0){
-            this.medicationIds.removeIf(n -> n == med);
+
+    public void removeMedication(String med) {
+        if (this.medicationIds.contains(med)) {
+            this.medicationIds.remove(med);
         } else {
             System.out.println("Medication not found.");
         }
     }
-    public void removePrescription(String pres){
-        int index = this.prescriptionIds.indexOf(pres);
-        if (index >= 0){
-            this.prescriptionIds.removeIf(n -> n == pres);
+
+    public void removePrescription(String pres) {
+        if (this.prescriptionIds.contains(pres)) {
+            this.prescriptionIds.remove(pres);
         } else {
             System.out.println("Prescription not found.");
         }
     }
-    public String getOneMedication(String med){
-        int index = this.medicationIds.indexOf(med);
-        if (index >= 0){
-            return this.medicationIds.get(index);
+
+    public String getOneMedication(String med) {
+        if (this.medicationIds.contains(med)) {
+            return med;
         } else {
             return "Medication not found.";
         }
     }
-    public String getOnePrescription(int pres){
-        int index = this.prescriptionIds.indexOf(pres);
-        if (index >= 0){
-            return this.prescriptionIds.get(index);
+
+    public String getOnePrescription(String pres) {
+        if (this.prescriptionIds.contains(pres)) {
+            return pres;
         } else {
             return "Prescription not found.";
         }
     }
 
+    @Override
+    public String toString() {
+        return "Patient Name: " + getName() + ", Age: " + getAge() + ", Phone: " + getPhoneNumber() + ", Medications: " + medicationIds + ", Prescriptions: " + prescriptionIds;
+    }
 }

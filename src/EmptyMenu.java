@@ -1,139 +1,115 @@
-
 import java.util.Scanner;
 
 public class EmptyMenu {
     public static void main(String[] args) {
-        // Ensure MedicationTrackingSystem class is correctly referenced
         MedicationTrackingSystem system = new MedicationTrackingSystem();
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("===== Welcome To The Pharmacy Med Tracking System!=====");
+            System.out.println("===== Welcome To The Pharmacy Med Tracking System! =====");
             System.out.println("1: Add A New Patient");
             System.out.println("2: Add A New Doctor");
             System.out.println("3: Add A New Medication");
-            System.out.println("4: Assign Patient To Doctor");
-            System.out.println("5: Print All Doctors");
-            System.out.println("6: Print All Patients");
-            System.out.println("7: Print All Medications");
-            System.out.println("8: Print All Prescriptions");
-            System.out.println("9: Delete A Doctor");
-            System.out.println("10: Delete A Patient");
-            System.out.println("11: Delete A Medication");
-            System.out.println("12: Check Expired Medications");
-            System.out.println("13: Restock Medication");
-            System.out.println("14: Exit");
+            System.out.println("4: Add A New Prescription");
+            System.out.println("5: Delete A Patient");
+            System.out.println("6: Delete A Doctor");
+            System.out.println("7: Delete A Medication");
+            System.out.println("8: Edit Patient Details");
+            System.out.println("9: Edit Doctor Details");
+            System.out.println("10: Edit Medication Details");
+            System.out.println("11: Search Patient by Name");
+            System.out.println("12: Search Doctor by Name");
+            System.out.println("13: Search Medication by Name");
+            System.out.println("14: Assign Patient to Doctor");
+            System.out.println("15: Print All Doctors");
+            System.out.println("16: Print All Patients");
+            System.out.println("17: Print All Medications");
+            System.out.println("18: Print All Prescriptions");
+            System.out.println("19: Check Expired Medications");
+            System.out.println("20: Restock Medication");
+            System.out.println("21: Generate System Report");
+            System.out.println("22: Print Prescriptions Issued by a Doctor");
+            System.out.println("23: Exit");
             System.out.print("Enter your choice: ");
-            
+
             if (!scanner.hasNextInt()) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Consume invalid input
+                scanner.next();
                 continue;
             }
-            
+
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-            
+            scanner.nextLine();
+
             switch (option) {
                 case 1:
-                    System.out.print("Enter patient name: ");
-                    String patientName = scanner.nextLine();
-                    System.out.print("Enter patient age: ");
-                    if (!scanner.hasNextInt()) {
-                        System.out.println("Invalid age input.");
-                        scanner.next();
-                        break;
-                    }
-                    int patientAge = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Enter patient phone number: ");
-                    String patientPhone = scanner.nextLine();
-                    system.addPatient(new Patient(patientName, patientAge, patientPhone));
+                    system.addPatient(scanner);
                     break;
                 case 2:
-                    System.out.print("Enter doctor name: ");
-                    String doctorName = scanner.nextLine();
-                    System.out.print("Enter doctor age: ");
-                    if (!scanner.hasNextInt()) {
-                        System.out.println("Invalid age input.");
-                        scanner.next();
-                        break;
-                    }
-                    int doctorAge = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Enter doctor phone number: ");
-                    String doctorPhone = scanner.nextLine();
-                    System.out.print("Enter doctor specialization: ");
-                    String specialization = scanner.nextLine();
-                    system.addDoctor(new Doctor(doctorName, doctorAge, doctorPhone, specialization));
+                    system.addDoctor(scanner);
                     break;
                 case 3:
-                    System.out.print("Enter medication name: ");
-                    String medName = scanner.nextLine();
-                    System.out.print("Enter dosage: ");
-                    String dosage = scanner.nextLine();
-                    System.out.print("Enter stock quantity: ");
-                    if (!scanner.hasNextInt()) {
-                        System.out.println("Invalid stock input.");
-                        scanner.next();
-                        break;
-                    }
-                    int stock = scanner.nextInt();
-                    scanner.nextLine();
-                    system.addMedication(new Medication(medName, dosage, stock));
+                    system.addMedication(scanner);
                     break;
                 case 4:
-                    System.out.print("Enter doctor name: ");
-                    String docName = scanner.nextLine();
-                    System.out.print("Enter patient name: ");
-                    String patName = scanner.nextLine();
-                    system.assignPatientToDoctor(docName, patName);
+                    system.addPrescription(scanner);
                     break;
                 case 5:
-                    system.printAllDoctors();
+                    system.deletePatient(scanner);
                     break;
                 case 6:
-                    system.printAllPatients();
+                    system.deleteDoctor(scanner);
                     break;
                 case 7:
-                    system.printAllMedications();
+                    system.deleteMedication(scanner);
                     break;
                 case 8:
-                    system.printAllPrescriptions();
+                    system.editPatient(scanner);
                     break;
                 case 9:
-                    System.out.print("Enter doctor name to delete: ");
-                    String delDocName = scanner.nextLine();
-                    system.deleteDoctor(delDocName);
+                    system.editDoctor(scanner);
                     break;
                 case 10:
-                    System.out.print("Enter patient name to delete: ");
-                    String delPatName = scanner.nextLine();
-                    system.deletePatient(delPatName);
+                    system.editMedication(scanner);
                     break;
                 case 11:
-                    System.out.print("Enter medication name to delete: ");
-                    String delMedName = scanner.nextLine();
-                    system.deleteMedication(delMedName);
+                    system.searchPatientByName(scanner);
                     break;
                 case 12:
-                    system.checkExpiredMedications();
+                    system.searchDoctorByName(scanner);
                     break;
                 case 13:
-                    System.out.print("Enter medication name to restock: ");
-                    String restockMedName = scanner.nextLine();
-                    System.out.print("Enter quantity to add: ");
-                    if (!scanner.hasNextInt()) {
-                        System.out.println("Invalid quantity input.");
-                        scanner.next();
-                        break;
-                    }
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine();
-                    system.restockMedication(restockMedName, quantity);
+                    system.searchMedicationByName(scanner);
                     break;
                 case 14:
+                    system.assignPatientToDoctor(scanner);
+                    break;
+                case 15:
+                    system.printAllDoctors();
+                    break;
+                case 16:
+                    system.printAllPatients();
+                    break;
+                case 17:
+                    system.printAllMedications();
+                    break;
+                case 18:
+                    system.printAllPrescriptions();
+                    break;
+                case 19:
+                    system.checkExpiredMedications();
+                    break;
+                case 20:
+                    system.restockMedication(scanner);
+                    break;
+                case 21:
+                    system.systemReport();
+                    break;
+                case 22:
+                    system.printPrescriptionsByDoctor(scanner);
+                    break;
+                case 23:
                     exit = true;
                     System.out.println("Exiting The System! Goodbye!");
                     break;

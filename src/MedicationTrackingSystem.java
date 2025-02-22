@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MedicationTrackingSystem {
     private ArrayList<Doctor> doctors;
@@ -14,272 +15,176 @@ public class MedicationTrackingSystem {
         this.medications = new ArrayList<>();
     }
 
-    public void addDoctor(Doctor doctor) {
+    // Adding new entities
+    public void addDoctor(Scanner scanner) {
+        Doctor doctor = new Doctor(scanner);
         doctors.add(doctor);
+        System.out.println("Doctor added successfully.");
     }
 
-    public void addPatient(Patient patient) {
+    public void addPatient(Scanner scanner) {
+        Patient patient = new Patient(scanner);
         patients.add(patient);
+        System.out.println("Patient added successfully.");
     }
 
-    public void addPrescription(Prescription prescription) {
-        prescriptions.add(prescription);
-        for (Patient patient : patients){
-            if (patient.getId().equalsIgnoreCase(prescription.getPatient())){
-                patient.addPrescription(prescription.getId());
-                patient.addMedication(prescription.getMedication());
-                break;
-            }
-        }
-    }
-
-    public void addMedication(Medication medication) {
+    public void addMedication(Scanner scanner) {
+        Medication medication = new Medication(scanner);
         medications.add(medication);
+        System.out.println("Medication added successfully.");
     }
 
-    public void updateDoctorAge(String name, int age){
-        for (Doctor doctor : doctors){
-            if (doctor.getName().equalsIgnoreCase(name)){
-                doctor.setAge(age);
-            }
-        }
+    public void addPrescription(Scanner scanner) {
+        Prescription prescription = new Prescription(scanner);
+        prescriptions.add(prescription);
+        System.out.println("Prescription added successfully.");
     }
 
-    public void updateDoctorPhone(String name, String phone){
-        for (Doctor doctor : doctors){
-            if (doctor.getName().equalsIgnoreCase(name)){
-                doctor.setPhone(phone);
-            }
-        }
+    // Deleting entities
+    public void deletePatient(Scanner scanner) {
+        System.out.print("Enter Patient Name to Delete: ");
+        String name = scanner.nextLine();
+        patients.removeIf(patient -> patient.getName().equalsIgnoreCase(name));
+        System.out.println("Patient deleted successfully.");
     }
 
-    public void updatePatientAge(String name, int age){
-        for (Patient patient : patients){
-            if (patient.getName().equalsIgnoreCase(name)){
-                patient.setAge(age);
-            }
-        }
-    }
-    public void updatePatientPhone(String name, String phone){
-        for (Patient patient : patients){
-            if (patient.getName().equalsIgnoreCase(name)){
-                patient.setPhone(phone);
-            }
-        }
+    public void deleteDoctor(Scanner scanner) {
+        System.out.print("Enter Doctor Name to Delete: ");
+        String name = scanner.nextLine();
+        doctors.removeIf(doctor -> doctor.getName().equalsIgnoreCase(name));
+        System.out.println("Doctor deleted successfully.");
     }
 
-    public void updateMedicationDose(String name, String dose){
-        for (Medication medication : medications){
-            if (medication.getName().equalsIgnoreCase(name)){
-                medication.setDosage(dose);
-            }
-        }
+    public void deleteMedication(Scanner scanner) {
+        System.out.print("Enter Medication Name to Delete: ");
+        String name = scanner.nextLine();
+        medications.removeIf(med -> med.getName().equalsIgnoreCase(name));
+        System.out.println("Medication deleted successfully.");
     }
 
-    public void updateMedicationExpiry(String name, LocalDate expiryDate){
-        for (Medication medication : medications){
-            if (medication.getName().equalsIgnoreCase(name)){
-                medication.setExpiryDate(expiryDate);
-            }
-        }
+    // Editing entities
+    public void editPatient(Scanner scanner) {
+        System.out.print("Enter Patient Name to Edit: ");
+        String name = scanner.nextLine();
+        patients.stream().filter(patient -> patient.getName().equalsIgnoreCase(name)).findFirst().ifPresent(patient -> {
+            System.out.print("Enter new phone number: ");
+            patient.setPhoneNumber(scanner.nextLine());
+            System.out.print("Enter new age: ");
+            patient.setAge(scanner.nextInt());
+            scanner.nextLine();
+            System.out.println("Patient details updated.");
+        });
     }
 
-    public void deleteDoctor(String name) {
-        String id = null;
-        for (Doctor doctor : doctors){
-            if (doctor.getName().equalsIgnoreCase(name)){
-                id = doctor.getId();
-                break;
-            }
-        }
-        if (id != null){
-            String finalId = id;
-            doctors.removeIf(doctor -> doctor.getId().equalsIgnoreCase(finalId));
-        }
+    public void editDoctor(Scanner scanner) {
+        System.out.print("Enter Doctor Name to Edit: ");
+        String name = scanner.nextLine();
+        doctors.stream().filter(doctor -> doctor.getName().equalsIgnoreCase(name)).findFirst().ifPresent(doctor -> {
+            System.out.print("Enter new phone number: ");
+            doctor.setPhoneNumber(scanner.nextLine());
+            System.out.print("Enter new specialization: ");
+            doctor.setSpecialization(scanner.nextLine());
+            System.out.println("Doctor details updated.");
+        });
     }
 
-    public void deletePatient(String name) {
-        String id = null;
-        for (Patient patient : patients){
-            if (patient.getName().equalsIgnoreCase(name)){
-                id = patient.getId();
-                break;
-            }
-        }
-        if (id != null){
-            String finalId = id;
-            for (Doctor doctor : doctors){
-                doctor.removePatient(finalId);
-            }
-            patients.removeIf(patient -> patient.getId().equalsIgnoreCase(finalId));
-        }
+    public void editMedication(Scanner scanner) {
+        System.out.print("Enter Medication Name to Edit: ");
+        String name = scanner.nextLine();
+        medications.stream().filter(med -> med.getName().equalsIgnoreCase(name)).findFirst().ifPresent(med -> {
+            System.out.print("Enter new dosage: ");
+            med.setDosage(scanner.nextLine());
+            System.out.print("Enter new quantity: ");
+            med.setQuantityInStock(scanner.nextInt());
+            scanner.nextLine();
+            System.out.println("Medication details updated.");
+        });
     }
 
-    public void deleteMedication(String name) {
-        String id = null;
-        for (Medication med : medications){
-            if (med.getName().equalsIgnoreCase(name)){
-                id = med.getId();
-                break;
-            }
-        }
-        if (id != null){
-            String finalId = id;
-            medications.removeIf(medication -> medication.getId().equalsIgnoreCase(finalId));
-        }
-
+    // Search functionalities
+    public void searchPatientByName(Scanner scanner) {
+        System.out.print("Enter Patient Name to Search: ");
+        String name = scanner.nextLine();
+        patients.stream().filter(patient -> patient.getName().equalsIgnoreCase(name)).forEach(System.out::println);
     }
 
-    public void searchMedication(String name) {
-        for (Medication medication : medications) {
-            if (medication.getName().equalsIgnoreCase(name)) {
-                System.out.println("Medication found: " + medication.getName() + ". Number in stock: " + medication.getQuantityInStock());
-                System.out.println("Dosage: " + medication.getDosage() + ". Expiry Date: " + medication.getExpiryDate());
-                return;
-            }
-        }
-        System.out.println("Medication not found.");
+    public void searchDoctorByName(Scanner scanner) {
+        System.out.print("Enter Doctor Name to Search: ");
+        String name = scanner.nextLine();
+        doctors.stream().filter(doctor -> doctor.getName().equalsIgnoreCase(name)).forEach(System.out::println);
     }
 
-    public void searchPatient(String name) {
-        for (Patient patient : patients) {
-            if (patient.getName().equalsIgnoreCase(name)) {
-                ArrayList<String> meds = patient.getMedications();
-                ArrayList<String> prescripts = patient.getPrescriptions();
-
-                System.out.println("Patient found: " + patient.getName() + ". Age: " + patient.getAge() + ". Phone #: " + patient.getPhone());
-                System.out.println("Medications: ");
-                for (String id : meds) {
-                    for (Medication medication : medications){
-                        if (medication.getId().equalsIgnoreCase(id)){
-                            System.out.println(medication.getName());
-                            break;
-                        }
-                    }
-                }
-                System.out.println("Prescription IDs: ");
-                for (String id : prescripts) {
-                    System.out.println(id);
-                }
-                return;
-            }
-        }
-        System.out.println("Medication not found.");
+    public void searchMedicationByName(Scanner scanner) {
+        System.out.print("Enter Medication Name to Search: ");
+        String name = scanner.nextLine();
+        medications.stream().filter(med -> med.getName().equalsIgnoreCase(name)).forEach(System.out::println);
     }
 
-    public void searchDoctor(String name) {
-        for (Doctor doctor : doctors) {
-            if (doctor.getName().equalsIgnoreCase(name)) {
-                ArrayList<String> patientIds = doctor.getPatients();
-
-                System.out.println("Doctor found: " + doctor.getName() + ". Specialization: " + doctor.getSpecialization() + "Phone #: " + doctor.getPhone());
-                System.out.println("Patients: ");
-                for (String id : patientIds) {
-                    for (Patient patient : patients){
-                        if (patient.getId().equalsIgnoreCase(id)){
-                            System.out.println(patient.getName());
-                            break;
-                        }
-                    }
-                }
-                return;
-            }
-        }
-        System.out.println("Medication not found.");
+    // Assign patient to doctor
+    public void assignPatientToDoctor(Scanner scanner) {
+        System.out.print("Enter Doctor Name: ");
+        String doctorName = scanner.nextLine();
+        System.out.print("Enter Patient Name: ");
+        String patientName = scanner.nextLine();
+        doctors.stream().filter(doc -> doc.getName().equalsIgnoreCase(doctorName)).findFirst().ifPresent(doc -> {
+            patients.stream().filter(patient -> patient.getName().equalsIgnoreCase(patientName)).findFirst().ifPresent(patient -> {
+                doc.addPatient(patient.getName());
+                System.out.println("Patient assigned to doctor successfully.");
+            });
+        });
     }
 
-    public void doctorPrescriptionsIssued(String doctorName) {
-        String docId = null;
-        for (Doctor doctor : doctors) {
-            if (doctor.getName().equalsIgnoreCase(doctorName)) {
-                docId = doctor.getId();
-                break;
-            }
-        }
-        if (docId != null) {
-            System.out.println("Doctor " + doctorName + "'s Prescriptions: ");
-            for (Prescription prescription : prescriptions){
-                if (prescription.getDoctor().equalsIgnoreCase(docId)){
-                    System.out.println(prescription.getId());
-                }
-            }
-        } else {
-            System.out.println("Doctor not found.");
-        }
+    // Print prescriptions by doctor
+    public void printPrescriptionsByDoctor(Scanner scanner) {
+        System.out.print("Enter Doctor Name: ");
+        String doctorName = scanner.nextLine();
+        System.out.println("Prescriptions issued by Dr. " + doctorName + ":");
+        prescriptions.stream()
+                .filter(prescription -> prescription.getDoctor().equalsIgnoreCase(doctorName))
+                .forEach(Prescription::printPrescriptionDetails);
     }
 
-    public void checkExpiredMedications() {
-        for (Medication medication : medications) {
-            if (medication.getExpiryDate().isBefore(LocalDate.now())) {
-                System.out.println("Expired medications on file: " + medication.getName());
-            }
-        }
-    }
-
-    public void restockMedication(String name, int amount) {
-        for (Medication medication : medications) {
-            if (medication.getName().equalsIgnoreCase(name)) {
-                medication.setQuantityInStock(medication.getQuantityInStock() + amount);
-                System.out.println(name + " , amount restocked: " + amount);
-                return;
-            }
-        }
-        System.out.println("Medication not found.");
-    }
-
+    // Existing methods remain unchanged
     public void printAllDoctors() {
-        for (Doctor doctor : doctors) {
-            System.out.println("Doctor: " + doctor.getName() + ", Specialization: " + doctor.getSpecialization());
-        }
+        doctors.forEach(System.out::println);
     }
 
     public void printAllPatients() {
-        for (Patient patient : patients) {
-            System.out.println("Patient: " + patient.getName() + ", Age: " + patient.getAge() + ", Phone Number: " + patient.getPhone());
-        }
+        patients.forEach(System.out::println);
     }
 
     public void printAllMedications() {
-        for (Medication medication : medications) {
-            System.out.println("Medication: " + medication.getName() + ", Dosage: " + medication.getDosage() + ", In stock: " + medication.getQuantityInStock() + ", Expiry: " + medication.getExpiryDate());
-        }
+        medications.forEach(System.out::println);
     }
 
     public void printAllPrescriptions() {
-        for (Prescription prescription : prescriptions) {
-            prescription.printPrescriptionDetails();
-        }
+        prescriptions.forEach(Prescription::printPrescriptionDetails);
     }
 
-    public void assignPatientToDoctor(String doctorName, String patientName) {
-        Doctor doctor = null;
-        for (Doctor doc : doctors) {
-            if (doc.getName().equalsIgnoreCase(doctorName)) {
-                doctor = doc;
-                break;
-            }
-        }
-        if (doctor != null) {
-            for (Patient patient: patients) {
-                if (patient.getName().equalsIgnoreCase(patientName)) {
-                    String patientId = patient.getId();
-                    doctor.addPatient(patientId);
-                    System.out.println("Patient " + patientName + "has been assigned to Dr. " + doctorName);
-                    return;
-                }
-            }
-            System.out.println("Patient " + patientName + "not found.");
-        } else {
-            System.out.println("Doctor " + doctorName + "not found.");
-        }
+    public void checkExpiredMedications() {
+        System.out.println("Expired Medications:");
+        medications.stream().filter(med -> med.getExpiryDate().isBefore(LocalDate.now())).forEach(System.out::println);
+    }
+
+    public void restockMedication(Scanner scanner) {
+        System.out.print("Enter Medication Name to Restock: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Quantity to Add: ");
+        int quantity = Integer.parseInt(scanner.nextLine());
+        medications.stream().filter(med -> med.getName().equalsIgnoreCase(name)).findFirst().ifPresentOrElse(
+            med -> {
+                med.setQuantityInStock(med.getQuantityInStock() + quantity);
+                System.out.println("Medication restocked successfully.");
+            },
+            () -> System.out.println("Medication not found.")
+        );
     }
 
     public void systemReport() {
-        System.out.println("==== SYSTEM REPORT: ====");
-        System.out.println("Doctors: " + doctors.size());
-        System.out.println("Patients: " + patients.size());
-        System.out.println("Medications: " + medications.size());
-        System.out.println("Prescriptions: " + prescriptions.size());
+        System.out.println("==== SYSTEM REPORT ====");
+        System.out.println("Total Doctors: " + doctors.size());
+        System.out.println("Total Patients: " + patients.size());
+        System.out.println("Total Medications: " + medications.size());
+        System.out.println("Total Prescriptions: " + prescriptions.size());
     }
-
 }
